@@ -14,8 +14,8 @@ async function sendBet() {
             game: "dice",
             amount: betAmount,
             rule: "under",
-            multiplier: Math.round(((100 - 1) / (Math.round((10000 - 100) / multiplier) / 100)) * 10000) / 10000,
-            bet_value: Math.round((10000 - 100) / multiplier) / 100
+            multiplier: Math.ceil(((100 - 1) / (Math.floor((10000 - 100) / multiplier) / 100)) * 10000) / 10000,
+            bet_value: Math.floor((10000 - 100) / multiplier) / 100
         })
     })
         .then(response => response.json())
@@ -40,13 +40,14 @@ async function run() {
     } else if (!win) {
         multiplier++
         if (multiplier > maxMultiplier) maxMultiplier = multiplier
+        if (multiplier > 9900) multiplier = 2
     }
     await sendBet()
     profit = (balance - startBalance).toFixed(8)
     let now = new Date()
     speed = (nBets / ((now - startTime) / 1000)).toFixed(2)
     profitPerHour = (profit / ((now - startTime) / 1000) * 3600).toFixed(8)
-    console.log('BET:', Math.max(maxBalance / 1000000, 0.00000001).toFixed(8), 'RESULT:', (win) ? ' WIN' : 'LOSE', 'MAX MULT.:', String(maxMultiplier).padStart(4, 0), 'BALANCE:', String(balance).slice(0, -2).padStart(10), 'PROFIT:', profit.padStart(11), 'SPEED:', speed, 'PROFIT/HOUR:', profitPerHour.padStart(11))
+    console.log('BET:', Math.max(maxBalance / 1000000, 0.00000001).toFixed(8), 'RESULT:', (win) ? ' WIN' : 'LOSE', 'MULT.:', multiplier,'MAX MULT.:', String(maxMultiplier).padStart(4, 0), 'BALANCE:', String(balance).slice(0, -2).padStart(10), 'PROFIT:', profit.padStart(11), 'SPEED:', speed, 'PROFIT/HOUR:', profitPerHour.padStart(11))
     await run()
 }
 
