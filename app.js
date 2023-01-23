@@ -8,7 +8,7 @@ let balance = 0, nBets = 0, multiplier = 2, win = true, startTime = new Date(), 
 async function sendBet() {
     await fetch('https://wolf.bet/api/v1/bet/place', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + accessToken},
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + accessToken },
         body: JSON.stringify({
             currency: "doge",
             game: "dice",
@@ -47,7 +47,7 @@ async function run() {
     let now = new Date()
     speed = (nBets / ((now - startTime) / 1000)).toFixed(2)
     profitPerHour = (profit / ((now - startTime) / 1000) * 3600).toFixed(8)
-    console.log('BET:', Math.max(maxBalance / 1000000, 0.00000001).toFixed(8), 'RESULT:', (win) ? ' WIN' : 'LOSE', 'MULT.:', multiplier,'MAX MULT.:', String(maxMultiplier).padStart(4, 0), 'BALANCE:', String(balance).slice(0, -2).padStart(10), 'PROFIT:', profit.padStart(11), 'SPEED:', speed, 'PROFIT/HOUR:', profitPerHour.padStart(11))
+    console.log('BET:', Math.max(maxBalance / 1000000, 0.00000001).toFixed(8), 'RESULT:', (win) ? ' WIN' : 'LOSE', 'MULT.:', multiplier, 'MAX MULT.:', String(maxMultiplier).padStart(4, 0), 'BALANCE:', String(balance).slice(0, -2).padStart(10), 'PROFIT:', profit.padStart(11), 'SPEED:', speed, 'PROFIT/HOUR:', profitPerHour.padStart(11))
     await run()
 }
 
