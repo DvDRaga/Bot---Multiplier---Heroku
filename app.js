@@ -40,7 +40,14 @@ async function run() {
     } else if (!win) {
         multiplier++
         if (multiplier > maxMultiplier) maxMultiplier = multiplier
-        if (multiplier > 9900) multiplier = 2
+        if (multiplier > 9900) {
+            multiplier = 2501
+            betAmount = betAmount * 4
+            if (betAmount > Math.max((maxBalance / 1000000).toFixed(8), 0.00000001) * 4) {
+                multiplier = 2
+                betAmount = Math.max((maxBalance / 1000000).toFixed(8), 0.00000001)
+            }
+        }
     }
     await sendBet()
     profit = (balance - startBalance).toFixed(8)
